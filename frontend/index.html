@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>운동기록앱 - AI 차트 분석</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏃 운동기록앱</h1>
+            <p>운동 기록과 AI 차트 분석을 한 곳에서</p>
+        </header>
+
+        <main>
+            <!-- 탭 메뉴 -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('record')">운동 기록</button>
+                <button class="tab-btn" onclick="showTab('analysis')">AI 차트 분석</button>
+                <button class="tab-btn" onclick="showTab('history')">기록 히스토리</button>
+            </div>
+
+            <!-- 운동 기록 입력 탭 -->
+            <div id="record-tab" class="tab-content active">
+                <section class="card">
+                    <h2>운동 기록 입력</h2>
+                    <form id="record-form">
+                        <div class="form-group">
+                            <label for="date">날짜</label>
+                            <input type="date" id="date" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="distance">거리 (km)</label>
+                                <input type="number" id="distance" step="0.1" placeholder="5.0">
+                            </div>
+                            <div class="form-group">
+                                <label for="duration">시간 (분)</label>
+                                <input type="number" id="duration" placeholder="30">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pace">페이스 (min/km)</label>
+                            <input type="text" id="pace" placeholder="5:30">
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">메모</label>
+                            <textarea id="notes" rows="3" placeholder="오늘의 운동 소감을 남겨보세요"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">기록 저장</button>
+                    </form>
+                </section>
+
+                <!-- 통계 -->
+                <section class="card">
+                    <h2>운동 통계</h2>
+                    <div id="stats" class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">총 기록</div>
+                            <div class="stat-value" id="total-records">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">총 거리</div>
+                            <div class="stat-value" id="total-distance">0 km</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">총 시간</div>
+                            <div class="stat-value" id="total-duration">0 분</div>
+                        </div>
+                    </div>
+
+                    <!-- 차트 영역 -->
+                    <div class="chart-container" style="margin-top: 30px;">
+                        <canvas id="distanceChart"></canvas>
+                    </div>
+                </section>
+            </div>
+
+            <!-- AI 차트 분석 탭 -->
+            <div id="analysis-tab" class="tab-content">
+                <section class="card">
+                    <h2>AI 차트 이미지 분석</h2>
+                    <p class="description">
+                        Strava, Nike Run Club 등 다른 앱의 차트 스크린샷을 업로드하면 AI가 분석해드립니다.
+                    </p>
+                    <form id="analysis-form">
+                        <div class="form-group">
+                            <label for="image">차트 이미지 (JPG/PNG, 최대 2MB)</label>
+                            <input type="file" id="image" accept="image/jpeg,image/png,image/jpg" required>
+                            <div id="image-preview"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span id="analyze-btn-text">AI 분석 시작</span>
+                            <span id="analyze-loading" class="loading" style="display: none;">분석 중...</span>
+                        </button>
+                    </form>
+                </section>
+
+                <!-- 분석 결과 -->
+                <section id="analysis-result" class="card" style="display: none;">
+                    <h2>분석 결과</h2>
+                    <div id="analysis-content" class="analysis-content"></div>
+                    <div class="analysis-meta">
+                        <span>사용 토큰: <strong id="tokens-used">0</strong></span>
+                        <span>예상 비용: <strong id="cost">$0.00</strong></span>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 기록 히스토리 탭 -->
+            <div id="history-tab" class="tab-content">
+                <section class="card">
+                    <h2>운동 기록 히스토리</h2>
+                    <div id="records-list" class="records-list">
+                        <p class="empty-state">아직 기록이 없습니다</p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>AI 분석 히스토리</h2>
+                    <div id="analyses-list" class="analyses-list">
+                        <p class="empty-state">아직 분석 기록이 없습니다</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <p>OpenAI gpt-4o-mini 기반 AI 차트 분석 | 로컬 실행 웹앱</p>
+        </footer>
+    </div>
+
+    <!-- 토스트 알림 컨테이너 -->
+    <div id="toast-container"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
