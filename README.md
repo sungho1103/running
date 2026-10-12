@@ -2,6 +2,8 @@
 
 로컬 웹 기반 운동 기록 관리 및 AI 차트 이미지 분석 시스템
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/sungho1103/running)
+
 ## 주요 기능
 
 - ✅ 운동 기록 입력/저장/조회 (날짜, 거리, 시간, 페이스, 메모)

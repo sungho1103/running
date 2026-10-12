@@ -5,7 +5,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./workout.db")
+# Vercel 환경에서는 /tmp 디렉토리 사용 (serverless read-only 파일시스템)
+if os.getenv("VERCEL"):
+    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:////tmp/workout.db")
+else:
+    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./workout.db")
 
 engine = create_async_engine(
     DATABASE_URL,
